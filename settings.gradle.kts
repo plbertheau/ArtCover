@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "ArtCover"
 include(":app")
- 
+include(":data")

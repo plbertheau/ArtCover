@@ -1,4 +1,4 @@
-package com.plbertheau.artcover
+package com.plbertheau.artcover.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,8 +11,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.plbertheau.artcover.ui.screens.TrackListScreen
 import com.plbertheau.artcover.ui.theme.ArtCoverTheme
+import com.plbertheau.artcover.viewmodel.TrackViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,10 +25,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             ArtCoverTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    val viewModel = hiltViewModel<TrackViewModel>()
+                    TrackListScreen(viewModel, modifier = Modifier.padding(innerPadding))
                 }
             }
         }

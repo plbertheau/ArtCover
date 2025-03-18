@@ -27,7 +27,7 @@ import coil.request.CachePolicy
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
 import com.plbertheau.artcover.viewmodel.TrackViewModel
-import com.plbertheau.data.model.TrackResponse
+import com.plbertheau.data.model.Track
 
 @Composable
 fun TrackListScreen(viewModel: TrackViewModel, modifier: Modifier) {
@@ -48,7 +48,7 @@ fun TrackListScreen(viewModel: TrackViewModel, modifier: Modifier) {
 }
 
 @Composable
-fun TrackItem(trackResponse: TrackResponse) {
+fun TrackItem(trackResponse: Track) {
     Column(modifier = Modifier.padding(16.dp)) {
         val context = LocalContext.current
         val build = ImageRequest.Builder(context)

@@ -1,9 +1,13 @@
 package com.plbertheau.data.module
 
 import android.content.Context
+import androidx.room.Room
 import com.localebro.okhttpprofiler.OkHttpProfilerInterceptor
+import com.plbertheau.data.Constants.BASE_URL
+import com.plbertheau.data.Constants.DATABASE_NAME
 import com.plbertheau.data.repository.ArtCoverTrackRepository
 import com.plbertheau.data.repository.ArtCoverTrackRepositoryImpl
+import com.plbertheau.data.room.TrackLocalDB
 import com.plbertheau.data.service.ArtCoverApi
 import dagger.Module
 import dagger.Provides
@@ -37,7 +41,7 @@ class DataModule {
     fun provideArtCoverApi(okHttpClient: OkHttpClient): ArtCoverApi {
         val api: ArtCoverApi by lazy {
             Retrofit.Builder()
-                .baseUrl("https://static.leboncoin.fr/")
+                .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build()
@@ -48,8 +52,18 @@ class DataModule {
 
     @Provides
     @Singleton
-    fun provideArtCoverTrackRepository(artCoverApi: ArtCoverApi): ArtCoverTrackRepository {
-        return ArtCoverTrackRepositoryImpl(artCoverApi)
+    fun provideArtCoverTrackRepository(artCoverApi: ArtCoverApi, trackLocalDB: TrackLocalDB): ArtCoverTrackRepository {
+        return ArtCoverTrackRepositoryImpl(api = artCoverApi, trackDao = trackLocalDB.getTrackDao())
+    }
+
+    @Provides
+    @Singleton
+    fun provideTrackLocalDB(@ApplicationContext context: Context): TrackLocalDB {
+        return Room.databaseBuilder(
+            context,
+            TrackLocalDB::class.java,
+            DATABASE_NAME,
+        ).build()
     }
 
 }

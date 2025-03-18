@@ -26,6 +26,10 @@ android {
         }
     }
 
+    ksp {
+        arg("room.schemaLocation", "$projectDir/data/schemas") // ✅ Required for auto migrations
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -36,18 +40,22 @@ android {
 }
 
 dependencies {
+    // ROOM
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
 
     // HILT
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
-//    implementation(libs.androidx.hilt.navigation.compose)
-//    implementation(libs.androidx.hilt.work)
+
     // RETROFIT
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
+
     //OKHTTP
     implementation(libs.okhttp.logging)
 
+    //OKHTTP PROFILER
     implementation(libs.okhttp.profiler)
 
     implementation(libs.androidx.core.ktx)

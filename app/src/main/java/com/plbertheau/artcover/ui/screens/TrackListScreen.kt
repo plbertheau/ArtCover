@@ -18,8 +18,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import coil.request.CachePolicy
+import coil.request.ImageRequest
+import coil.transform.CircleCropTransformation
 import com.plbertheau.artcover.viewmodel.TrackViewModel
 import com.plbertheau.data.model.TrackResponse
 
@@ -44,14 +50,30 @@ fun TrackListScreen(viewModel: TrackViewModel, modifier: Modifier) {
 @Composable
 fun TrackItem(trackResponse: TrackResponse) {
     Column(modifier = Modifier.padding(16.dp)) {
+        val context = LocalContext.current
+        val build = ImageRequest.Builder(context)
+            .data(trackResponse.url)
+            .crossfade(true)  // Optional: Adds a fade animation
+            .diskCachePolicy(CachePolicy.ENABLED)  // Enables disk caching
+            .memoryCachePolicy(CachePolicy.ENABLED) // Enables memory caching
+            .networkCachePolicy(CachePolicy.ENABLED) // Enables network caching
+            .transformations(CircleCropTransformation()) // Optional: Crop image
+            .addHeader("User-Agent", "ArtCover/1.0") // Optional additional headers
+            .build()
         AsyncImage(
-            model = trackResponse.url,
+            model = build,
             modifier = Modifier
                 .wrapContentWidth(),
             contentScale = ContentScale.FillHeight,
             contentDescription = null
         )
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = trackResponse.title, style = MaterialTheme.typography.titleLarge)
+        Text(
+            text = trackResponse.title,
+            style = MaterialTheme.typography.titleSmall,
+            maxLines = 3,
+            overflow = TextOverflow.Ellipsis,
+            textAlign = TextAlign.Center,
+        )
     }
 }

@@ -5,9 +5,8 @@ import androidx.room.Room
 import com.localebro.okhttpprofiler.OkHttpProfilerInterceptor
 import com.plbertheau.data.Constants.BASE_URL
 import com.plbertheau.data.Constants.DATABASE_NAME
-import com.plbertheau.data.repository.ArtCoverTrackRepository
+import com.plbertheau.data.local.TrackLocalDB
 import com.plbertheau.data.repository.ArtCoverTrackRepositoryImpl
-import com.plbertheau.data.room.TrackLocalDB
 import com.plbertheau.data.service.ArtCoverApi
 import dagger.Module
 import dagger.Provides
@@ -52,7 +51,7 @@ class DataModule {
 
     @Provides
     @Singleton
-    fun provideArtCoverTrackRepository(artCoverApi: ArtCoverApi, trackLocalDB: TrackLocalDB): ArtCoverTrackRepository {
+    fun provideArtCoverTrackRepository(artCoverApi: ArtCoverApi, trackLocalDB: TrackLocalDB): com.plbertheau.domain.repository.ArtCoverTrackRepository {
         return ArtCoverTrackRepositoryImpl(api = artCoverApi, trackDao = trackLocalDB.getTrackDao())
     }
 

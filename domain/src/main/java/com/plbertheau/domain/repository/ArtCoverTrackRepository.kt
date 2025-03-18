@@ -1,6 +1,6 @@
-package com.plbertheau.data.repository
+package com.plbertheau.domain.repository
 
-import com.plbertheau.data.model.Track
+import com.plbertheau.domain.model.Track
 
 interface ArtCoverTrackRepository {
     suspend fun getArtCoverTracks(): List<Track>

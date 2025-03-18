@@ -3,24 +3,25 @@ package com.plbertheau.artcover.viewmodel
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.plbertheau.data.model.Track
-import com.plbertheau.data.repository.ArtCoverTrackRepository
+import com.plbertheau.artcover.model.TrackUiModel
+import com.plbertheau.artcover.model.toUiModel
+import com.plbertheau.domain.usecase.GetTracksUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class TrackViewModel @Inject constructor(private val repository: ArtCoverTrackRepository) : ViewModel() {
-    val tracks = mutableStateOf<List<Track>>(emptyList())
+class TrackViewModel @Inject constructor(private val getTracksUseCase: GetTracksUseCase) : ViewModel() {
+    val tracks = mutableStateOf<List<TrackUiModel>>(emptyList())
 
     init {
-        fetchAlbums()
+        fetchTrack()
     }
 
-    private fun fetchAlbums() {
+    private fun fetchTrack() {
         viewModelScope.launch {
-            val data = repository.getTracksFromDatabase()
-            tracks.value = data.ifEmpty { repository.getArtCoverTracks() }
+            val data = getTracksUseCase.execute()
+            tracks.value = data.map { it.toUiModel() }
         }
     }
 }

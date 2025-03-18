@@ -26,8 +26,8 @@ import coil.compose.AsyncImage
 import coil.request.CachePolicy
 import coil.request.ImageRequest
 import coil.transform.CircleCropTransformation
+import com.plbertheau.artcover.model.TrackUiModel
 import com.plbertheau.artcover.viewmodel.TrackViewModel
-import com.plbertheau.data.model.Track
 
 @Composable
 fun TrackListScreen(viewModel: TrackViewModel, modifier: Modifier) {
@@ -48,17 +48,17 @@ fun TrackListScreen(viewModel: TrackViewModel, modifier: Modifier) {
 }
 
 @Composable
-fun TrackItem(trackResponse: Track) {
+fun TrackItem(track: TrackUiModel) {
     Column(modifier = Modifier.padding(16.dp)) {
         val context = LocalContext.current
         val build = ImageRequest.Builder(context)
-            .data(trackResponse.url)
-            .crossfade(true)  // Optional: Adds a fade animation
-            .diskCachePolicy(CachePolicy.ENABLED)  // Enables disk caching
-            .memoryCachePolicy(CachePolicy.ENABLED) // Enables memory caching
-            .networkCachePolicy(CachePolicy.ENABLED) // Enables network caching
-            .transformations(CircleCropTransformation()) // Optional: Crop image
-            .addHeader("User-Agent", "ArtCover/1.0") // Optional additional headers
+            .data(track.url)
+            .crossfade(true)
+            .diskCachePolicy(CachePolicy.ENABLED)
+            .memoryCachePolicy(CachePolicy.ENABLED)
+            .networkCachePolicy(CachePolicy.ENABLED)
+            .transformations(CircleCropTransformation())
+            .addHeader("User-Agent", "ArtCover/1.0")
             .build()
         AsyncImage(
             model = build,
@@ -69,7 +69,7 @@ fun TrackItem(trackResponse: Track) {
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = trackResponse.title,
+            text = track.title,
             style = MaterialTheme.typography.titleSmall,
             maxLines = 3,
             overflow = TextOverflow.Ellipsis,

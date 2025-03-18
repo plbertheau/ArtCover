@@ -1,8 +1,11 @@
 package com.plbertheau.data.repository
 
-import com.plbertheau.data.model.Track
-import com.plbertheau.data.room.TrackDao
+import com.plbertheau.domain.model.Track
+import com.plbertheau.data.local.TrackDao
+import com.plbertheau.data.local.toDomain
+import com.plbertheau.data.local.toEntity
 import com.plbertheau.data.service.ArtCoverApi
+import com.plbertheau.data.service.toDomain
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -10,12 +13,12 @@ import javax.inject.Inject
 class ArtCoverTrackRepositoryImpl @Inject constructor(
     private val api: ArtCoverApi,
     private val trackDao: TrackDao
-) : ArtCoverTrackRepository {
+) : com.plbertheau.domain.repository.ArtCoverTrackRepository {
     override suspend fun getArtCoverTracks(): List<Track> {
         return withContext(Dispatchers.IO) {
             try {
-                val response = api.getTrackList()
-                trackDao.insertTracks(response)
+                val response = api.getTrackList().map { it.toDomain() }
+                trackDao.insertTracks(response.map { it.toEntity() })
                 response
             } catch (e: Exception) {
                 println("exception: $e")
@@ -26,7 +29,7 @@ class ArtCoverTrackRepositoryImpl @Inject constructor(
 
     override suspend fun getTracksFromDatabase(): List<Track> {
         return withContext(Dispatchers.IO) {
-            trackDao.getAllTracks()
+            trackDao.getAllTracks().map { it.toDomain() }
         }
     }
 }

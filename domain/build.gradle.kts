@@ -1,12 +1,10 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.hilt.android)
-    alias(libs.plugins.ksp)
 }
 
 android {
-    namespace = "com.plbertheau.data"
+    namespace = "com.plbertheau.domain"
     compileSdk = 35
 
     defaultConfig {
@@ -25,39 +23,19 @@ android {
             )
         }
     }
-
-    ksp {
-        arg("room.schemaLocation", "$projectDir/data/schemas") // ✅ Required for auto migrations
-    }
-
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
 }
 
 dependencies {
-    implementation(project(":domain"))
-    // ROOM
-    implementation(libs.androidx.room.ktx)
-    ksp(libs.androidx.room.compiler)
 
-    // HILT
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
-
-    // RETROFIT
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.gson)
-
-    //OKHTTP
-    implementation(libs.okhttp.logging)
-
-    //OKHTTP PROFILER
-    implementation(libs.okhttp.profiler)
+    // ANNOTATION
+    implementation(libs.javax.inject)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

@@ -29,14 +29,13 @@ import org.mockito.kotlin.whenever
 class TrackViewModelTest {
 
     @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule() // To run LiveData on the same thread
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
 
     private lateinit var viewModel: TrackViewModel
 
 
     private var mockGetTracksUseCase: GetTracksUseCase = mock()
 
-    // This is used to control and test coroutines in a controlled environment
     private val testDispatcher = StandardTestDispatcher()
 
     @Before
@@ -44,7 +43,6 @@ class TrackViewModelTest {
         // Set the dispatcher for testing
         Dispatchers.setMain(testDispatcher)
 
-        // Initialize the ViewModel with the mocked use case
         viewModel = TrackViewModel(mockGetTracksUseCase)
         whenever(mockGetTracksUseCase()).thenReturn(flowOf(Result.Loading))
     }
@@ -70,7 +68,6 @@ class TrackViewModelTest {
         val trackList = listOf(track1)
         // Assert loading
         assertTrue(viewModel.uiState.value is UiState.Loading)
-        // Mock the use case to return a successful response after some delay
         whenever(mockGetTracksUseCase()).thenReturn(
             flow {
                 emit(Result.Success(trackList))
@@ -79,7 +76,6 @@ class TrackViewModelTest {
         // When
         viewModel.fetchTracks()
 
-        // Run coroutines and move forward in time
         advanceUntilIdle()
         // Assert
         // After loading, it should be Success
@@ -93,7 +89,6 @@ class TrackViewModelTest {
         val trackListUiModel = listOf(trackUiModel1, trackUiModel2)
         val trackList = listOf(track1, track2)
 
-        // Mock the use case to return a successful response with the track list
         whenever(mockGetTracksUseCase()).thenReturn(
             flow {
                 emit(Result.Success(trackList))
@@ -119,7 +114,6 @@ class TrackViewModelTest {
         // Given
         val errorMessage = "Network error"
 
-        // Mock the use case to return an error
         whenever(mockGetTracksUseCase()).thenReturn(
             flow {
                 emit(Result.Error(Exception(errorMessage)))

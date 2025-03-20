@@ -3,14 +3,14 @@
 The project follows the Clean Architecture + MVVM approach, ensuring a clear separation of concerns and improved testability.
 
 ## MVVM (Model-View-ViewModel)
-- View (UI Layer): Displays data and interacts with the user. (e.g., Fragment/Activity)
-- ViewModel (Presentation Layer): Handles business logic for the view and exposes state via StateFlow. (e.g., TrackViewModel)
-- Model (Domain/Data Layer): Contains business logic and retrieves data via UseCases and repositories.
+- View : Displays data and interacts with the user. (e.g., Fragment/Activity)
+- ViewModel : Handles business logic for the view and exposes state via StateFlow. (e.g., TrackViewModel)
+- Model : Contains business logic and retrieves data via UseCases and repositories.
 
 ## Clean Architecture
 - Domain Layer: Defines use cases (UseCase) and data models.
 - Data Layer: Implements repositories and data sources (API, Room DB).
-- Presentation Layer: Contains ViewModels and UI logic.
+- Presentation Layer (App): Contains ViewModels and UI logic.
   
 ## 🛠 Technologies & Libraries
 We have selected these libraries to ensure performance, maintainability, and testability.

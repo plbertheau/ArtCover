@@ -10,7 +10,6 @@ data class TrackUiModel(
     val thumbnailUrl: String
 )
 
-// Extension pour convertir Domain → UI
 fun Track.toUiModel(): TrackUiModel {
     return TrackUiModel(id, albumId, title, url, thumbnailUrl)
 }

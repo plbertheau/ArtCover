@@ -64,5 +64,4 @@ class DataModule {
             DATABASE_NAME,
         ).build()
     }
-
 }

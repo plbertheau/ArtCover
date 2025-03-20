@@ -24,10 +24,10 @@ class TrackViewModel @Inject constructor(private val getTracksUseCase: GetTracks
         fetchTracks()
     }
 
-    private fun fetchTracks() {
+    fun fetchTracks() {
         viewModelScope.launch {
             _uiState.value = UiState.Loading
-            getTracksUseCase.execute()
+            getTracksUseCase.invoke()
                 .collect { result ->
                     _uiState.value = when (result) {
                         is Result.Success -> {

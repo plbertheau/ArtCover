@@ -31,11 +31,11 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
 }
 
@@ -43,6 +43,7 @@ dependencies {
     implementation(project(":domain"))
     // ROOM
     implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.junit.ktx)
     ksp(libs.androidx.room.compiler)
 
     // HILT
@@ -62,6 +63,11 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("androidx.room:room-testing:2.4.2")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.x.x")
+    testImplementation(libs.mockito.kotlin)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

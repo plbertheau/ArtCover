@@ -12,7 +12,7 @@ import javax.inject.Inject
 class GetTracksUseCase @Inject constructor(
     private val repository: ArtCoverTrackRepository
 ) {
-    fun execute(): Flow<Result<List<Track>>> = flow {
+    operator fun invoke(): Flow<Result<List<Track>>> = flow {
         emit(Result.Loading)
 
         val tracksFromDb = repository.getTracksFromDatabase()

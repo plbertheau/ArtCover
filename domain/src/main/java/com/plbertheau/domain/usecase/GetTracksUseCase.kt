@@ -25,7 +25,7 @@ class GetTracksUseCase @Inject constructor(
         if (tracksFromApiResult.isSuccess) {
             emit(Result.Success(tracksFromApiResult.getOrNull()!!))
         } else {
-            emit(Result.Error(Exception("Unknown error")))
+            emit(Result.Error(Exception("No data available and no connection")))
         }
     }.catch { e ->
         emit(Result.Error(Exception(e)))

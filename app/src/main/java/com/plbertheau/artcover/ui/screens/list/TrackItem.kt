@@ -1,4 +1,4 @@
-package com.plbertheau.artcover.ui.screens
+package com.plbertheau.artcover.ui.screens.list
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer

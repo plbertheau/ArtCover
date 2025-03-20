@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.plbertheau.artcover.ui.screens.TrackListScreen
+import com.plbertheau.artcover.ui.screens.list.TrackListScreen
 import com.plbertheau.artcover.ui.theme.ArtCoverTheme
 import com.plbertheau.artcover.viewmodel.TrackViewModel
 import dagger.hilt.android.AndroidEntryPoint

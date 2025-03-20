@@ -1,4 +1,4 @@
-package com.plbertheau.artcover.ui.screens
+package com.plbertheau.artcover.ui.screens.list
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement

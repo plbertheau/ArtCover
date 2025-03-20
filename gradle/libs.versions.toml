@@ -64,11 +64,8 @@ androidx-arch-core-testing = { group = "androidx.arch.core", name = "core-testin
 mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockito_version" }
 mockito-inline = { group = "org.mockito", name = "mockito-inline", version.ref = "mockito_inline_version" }
 mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockito_kotlin_version" }
-
-mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk_version" }
-truth = { group = "com.google.truth", name = "truth", version.ref = "truth_version" }
-turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine_version" }
 androidx-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "junitKtx" }
+room-testing = { group = "androidx.room", name = "room-testing", version.ref = "room_version" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

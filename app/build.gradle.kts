@@ -73,7 +73,7 @@ dependencies {
     implementation(libs.androidx.material3)
 
     testImplementation(libs.androidx.arch.core.testing)
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.x.x")
+    testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockito.kotlin)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

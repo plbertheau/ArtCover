@@ -27,7 +27,7 @@ android {
     }
 
     ksp {
-        arg("room.schemaLocation", "$projectDir/data/schemas") // ✅ Required for auto migrations
+        arg("room.schemaLocation", "$projectDir/data/schemas")
     }
 
     compileOptions {
@@ -64,9 +64,8 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
 
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("androidx.room:room-testing:2.4.2")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.x.x")
+    testImplementation(libs.room.testing)
+    testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockito.kotlin)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

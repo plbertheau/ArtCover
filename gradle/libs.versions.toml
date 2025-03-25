@@ -25,6 +25,7 @@ arch_core_version = "2.2.0"
 mockito_kotlin_version = "5.1.0"
 mockito_inline_version = "5.0.0"
 junitKtx = "1.2.1"
+kotlin_test_version = "2.1.10"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -57,6 +58,7 @@ androidx-room-compiler = { group = "androidx.room", name = "room-compiler", vers
 javax-inject = { module = "javax.inject:javax.inject", version.ref = "javaxInject" }
 
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines_test_version" }
+kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin_test_version" }
 androidx-arch-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "arch_core_version" }
 mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockito_version" }
 mockito-inline = { group = "org.mockito", name = "mockito-inline", version.ref = "mockito_inline_version" }

@@ -34,7 +34,7 @@ class TrackViewModel @Inject constructor(private val getTracksUseCase: GetTracks
                             UiState.Success(result.data.map { it.toUiModel() })
                         }
                         is Result.Error -> {
-                            UiState.Error("Erreur : ${result.exception.message ?: "Unknown error"}")
+                            UiState.Error("Error : ${result.exception.message ?: "Unknown error"}")
                         }
                         is Result.Loading -> UiState.Loading
                     }

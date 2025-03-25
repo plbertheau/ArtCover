@@ -1,6 +1,5 @@
 package com.plbertheau.artcover
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.plbertheau.artcover.model.TrackUiModel
 import com.plbertheau.artcover.viewmodel.TrackViewModel
 import com.plbertheau.artcover.viewmodel.UiState
@@ -29,7 +28,7 @@ import org.mockito.kotlin.whenever
 class TrackViewModelTest {
 
     @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
+    val dispatcherRule = TestCoroutineRule()
 
     private lateinit var viewModel: TrackViewModel
 
@@ -53,18 +52,9 @@ class TrackViewModelTest {
     }
 
     @Test
-    fun `fetchTracks should emit Loading state initially`() {
-        // Act
-        val currentState = viewModel.uiState.value
-
-        // Assert
-        assertTrue(currentState is UiState.Loading)
-    }
-
-    @Test
     fun `fetchTracks should emit Loading state when fetching tracks`() = runTest {
         // Given
-        val trackResultUiModel = listOf(trackUiModel1)
+        val trackListUiModel = listOf(trackUiModel1)
         val trackList = listOf(track1)
         // Assert loading
         assertTrue(viewModel.uiState.value is UiState.Loading)
@@ -80,7 +70,7 @@ class TrackViewModelTest {
         // Assert
         // After loading, it should be Success
         val successState = viewModel.uiState.value as UiState.Success
-        assertEquals(trackResultUiModel, successState.data)
+        assertEquals(trackListUiModel, successState.data)
     }
 
     @Test
@@ -130,7 +120,7 @@ class TrackViewModelTest {
         val currentState = viewModel.uiState.value
         assertTrue(currentState is UiState.Error)
         val errorState = currentState as UiState.Error
-        assertEquals("Erreur : $errorMessage", errorState.message)
+        assertEquals("Error : $errorMessage", errorState.message)
     }
 
     // Test data

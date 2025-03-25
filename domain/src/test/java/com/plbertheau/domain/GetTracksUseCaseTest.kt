@@ -6,6 +6,8 @@ import com.plbertheau.domain.usecase.GetTracksUseCase
 import com.plbertheau.domain.usecase.GetTracksUseCase.Result
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.test.runTest
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -42,8 +44,8 @@ class GetTracksUseCaseTest {
         // Assert
         val result1 = flow.last()
 
-        assert(result1 is Result.Success<*>)
-        assert((result1 as Result.Success<*>).data == mockTracks)
+        assertTrue(result1 is Result.Success<*>)
+        assertEquals(mockTracks, (result1 as Result.Success<*>).data)
 
     }
 
@@ -64,8 +66,8 @@ class GetTracksUseCaseTest {
         // Assert
         val result1 = flow.last()
 
-        assert(result1 is Result.Success<*>)
-        assert((result1 as Result.Success<*>).data == mockTracks)
+        assertTrue(result1 is Result.Success<*>)
+        assertEquals(mockTracks, (result1 as Result.Success<*>).data)
 
     }
 
@@ -83,7 +85,7 @@ class GetTracksUseCaseTest {
 
         // Assert
         val result1 = flow.last()
-        assert(result1 is Result.Error)
+        assertTrue(result1 is Result.Error)
     }
 
     @Test
@@ -100,17 +102,17 @@ class GetTracksUseCaseTest {
 
         // Assert
         val result1 = flow.last()
-        assert(result1 is Result.Error)
+        assertTrue(result1 is Result.Error)
     }
 
-    val track1 = Track(
+    private val track1 = Track(
         1,
         1,
         "accusamus beatae ad facilis cum similique qui sunt",
         "https://placehold.co/600x600/92c952/white/png",
         "https://placehold.co/150x150/92c952/white/png"
     )
-    val track2 = Track(
+    private val track2 = Track(
         1,
         2,
         "reprehenderit est deserunt velit ipsam",

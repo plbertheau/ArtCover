@@ -9,12 +9,16 @@ import com.plbertheau.domain.model.Track
 import com.plbertheau.domain.repository.ArtCoverTrackRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import org.junit.Assert.*
+import org.junit.After
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mockito.*
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.verify
 import org.mockito.kotlin.any
 import org.mockito.kotlin.doThrow
 import org.mockito.kotlin.whenever
@@ -80,8 +84,13 @@ class ArtCoverTrackRepositoryImplTest {
         repository = ArtCoverTrackRepositoryImpl(mockApi, mockTrackDao)
     }
 
+    @After
+    fun tearDown() {
+        Dispatchers.resetMain()
+    }
+
     @Test
-    fun `getArtCoverTracks should return success when API is successful`() = runBlocking {
+    fun `getArtCoverTracks should return success when API is successful`() = runTest {
         // When
         val apiResponse = listOf(trackDTO1, trackDTO2)
         whenever(mockApi.getTrackList()).thenReturn(apiResponse)
@@ -89,13 +98,17 @@ class ArtCoverTrackRepositoryImplTest {
         // Act
         val result = repository.getArtCoverTracks()
 
-        // Assert
+        // Then (assert success and correct data)
         assertTrue(result.isSuccess)
+        assertEquals(Result.success(listOf(track1, track2)), result)
+
+        // Verify database insertion
         verify(mockTrackDao).insertTracks(any())
+
     }
 
     @Test
-    fun `getArtCoverTracks should return failure when API fails`() = runBlocking {
+    fun `getArtCoverTracks should return failure when API fails`() = runTest {
         // When
         whenever(mockApi.getTrackList()).doThrow(RuntimeException("API error"))
 
@@ -104,11 +117,11 @@ class ArtCoverTrackRepositoryImplTest {
 
         // Assert
         assertTrue(result.isFailure)
-        assertTrue(result.exceptionOrNull() is Exception)
+        assertEquals("API error", result.exceptionOrNull()?.message)
     }
 
     @Test
-    fun `getTracksFromDatabase should return success when tracks exist in the database`() = runBlocking {
+    fun `getTracksFromDatabase should return success when tracks exist in the database`() = runTest {
         // When
         whenever(mockTrackDao.getAllTracks()).thenReturn(listOf(trackEntity1, trackEntity2))
 
@@ -116,14 +129,11 @@ class ArtCoverTrackRepositoryImplTest {
         val result: Result<List<Track>> = repository.getTracksFromDatabase()
 
         // Assert
-        assertTrue(result.isSuccess)
-        assertEquals(2, result.getOrNull()?.size)
-        assertTrue(result.getOrNull()?.contains(track1) == true)
-        assertTrue(result.getOrNull()?.contains(track2) == true)
+        assertEquals(Result.success(listOf(track1, track2)), result)
     }
 
     @Test
-    fun `getTracksFromDatabase should return empty list when no tracks exist in the database`() = runBlocking {
+    fun `getTracksFromDatabase should return empty list when no tracks exist in the database`() = runTest {
         // When
         whenever(mockTrackDao.getAllTracks()).thenReturn(emptyList())
 
@@ -131,7 +141,6 @@ class ArtCoverTrackRepositoryImplTest {
         val result = repository.getTracksFromDatabase()
 
         // Assert
-        assertTrue(result.isSuccess)
-        assertTrue(result.getOrNull()?.isEmpty() == true)
+        assertEquals(Result.success(emptyList<Track>()), result)
     }
 }

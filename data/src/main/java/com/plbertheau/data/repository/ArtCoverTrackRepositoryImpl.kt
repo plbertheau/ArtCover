@@ -15,6 +15,10 @@ class ArtCoverTrackRepositoryImpl @Inject constructor(
     private val api: ArtCoverApi,
     private val trackDao: TrackDao
 ) : ArtCoverTrackRepository {
+    /**
+     * Since my API function is a suspend function, it will run in whatever coroutine context calls it.
+     * If that context is not Dispatchers.IO, the network call could block the main thread.
+     */
     override suspend fun getArtCoverTracks(): Result<List<Track>> {
         return withContext(Dispatchers.IO) {
             try {
@@ -28,8 +32,6 @@ class ArtCoverTrackRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getTracksFromDatabase(): Result<List<Track>> {
-        return withContext(Dispatchers.IO) {
-            Result.success(trackDao.getAllTracks().map { it.toDomain() })
-        }
+        return Result.success(trackDao.getAllTracks().map { it.toDomain() })
     }
 }
